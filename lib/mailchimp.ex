@@ -29,8 +29,8 @@ defmodule Mailchimp do
     GenServer.call(:mailchimp, {:add_member, list_id, email, merge_fields})
   end
 
-  def add_pending_member(list_id, email) do
-    GenServer.call(:mailchimp, {:add_pending_member, list_id, email})
+  def add_pending_member(list_id, email, merge_fields \\ %{}) do
+    GenServer.call(:mailchimp, {:add_pending_member, list_id, email, merge_fields})
   end
 
   def get_member(list_id, email) do
@@ -58,12 +58,16 @@ defmodule Mailchimp do
   end
 
   def handle_call({:add_member, list_id, email, merge_fields}, _from, config) do
-    member = Mailchimp.List.add_member(config, %{"list_id" => list_id, "email" => email, "merge_fields" => merge_fields})
+    member = Mailchimp.List.add_member(config,
+      %{"list_id" => list_id, "email" => email, "merge_fields" => merge_fields
+    })
     {:reply, member, config}
   end
 
-  def handle_call({:add_pending_member, list_id, email}, _from, config) do
-    member = Mailchimp.List.add_pending_member(config, %{"list_id" => list_id, "email" => email})
+  def handle_call({:add_pending_member, list_id, email, merge_fields}, _from, config) do
+    member = Mailchimp.List.add_pending_member(config,
+      %{"list_id" => list_id, "email" => email, "merge_fields" => merge_fields
+    })
     {:reply, member, config}
   end
 
