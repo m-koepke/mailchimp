@@ -22,9 +22,9 @@ defmodule Mailchimp.List do
     |> get(map_header)
   end
 
-  def add_member(config, %{"list_id" => list_id, "email" => email}) do
+  def add_member(config, %{"list_id" => list_id, "email" => email, "merge_fields" => merge_fields}) do
     map_header = %{"Authorization" => "apikey #{config.apikey}"}
-    {:ok, body} = Poison.encode(%{email_address: email, status: "subscribed"})
+    {:ok, body} = Poison.encode(%{email_address: email, status: "subscribed", merge_fields: merge_fields})
     config.apiroot <> "lists/" <> list_id <> "/members"
     |> post(body, map_header)
   end
