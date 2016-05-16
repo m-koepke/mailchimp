@@ -25,7 +25,7 @@ defmodule Mailchimp do
     GenServer.call(:mailchimp, {:list_members, list_id})
   end
 
-  def add_member(list_id, email, merge_fields // %{}) do
+  def add_member(list_id, email, merge_fields \\ %{}) do
     GenServer.call(:mailchimp, {:add_member, list_id, email, merge_fields})
   end
 
