@@ -3,7 +3,7 @@ defmodule Mailchimp.Mixfile do
 
   def project do
     [app: :mailchimp,
-     version: "0.0.3",
+     version: "0.0.4",
      elixir: "~> 1.0",
      description: description,
      package: package,
@@ -24,7 +24,7 @@ defmodule Mailchimp.Mixfile do
 
   defp deps do
     [{:httpoison, "~> 0.6"},
-     {:poison, "~> 2.1"}]
+     {:poison, "~> 2.0"}]
   end
 
   defp package do
