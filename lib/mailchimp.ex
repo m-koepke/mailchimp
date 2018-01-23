@@ -3,13 +3,11 @@ defmodule Mailchimp do
   use GenServer
   require Logger
 
-  @apikey Application.get_env :mailchimp, :apikey
-
   ### Public API
   def start_link(opts \\ []) do
     shard = get_shard
     apiroot = "https://#{shard}.api.mailchimp.com/3.0/"
-    config = %{apiroot: apiroot, apikey: @apikey}
+    config = %{apiroot: apiroot, apikey: Application.get_env :mailchimp, :apikey}
     GenServer.start_link(Mailchimp, config, name: :mailchimp)
   end
 
@@ -82,14 +80,14 @@ defmodule Mailchimp do
   end
 
   def get_shard do
-    parts = @apikey
+    parts = Application.get_env :mailchimp, :apikey
     |> String.split(~r{-})
 
     case length(parts) do
       2 ->
         List.last parts
       _ ->
-        Logger.error "This doesn't look like an API Key: #{@apikey}"
+        Logger.error "This doesn't look like an API Key: #{Application.get_env :mailchimp, :apikey}"
         Logger.info "The API Key should have both a key and a server name, separated by a dash, like this: abcdefg8abcdefg6abcdefg4-us1"
         {:error}
     end
